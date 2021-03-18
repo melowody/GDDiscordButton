@@ -1,0 +1,1 @@
+size_t Base64Decode(const std::string& source, void* pdest, size_t dest_size);
