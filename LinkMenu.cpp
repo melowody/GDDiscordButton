@@ -40,6 +40,7 @@ class LinkProtocol : public FLAlertLayerProtocol {
 };
 
 bool LinkMenu::init() {
+	LinkButton::token = "";
 	std::string text = "Please send this <cy>token</c> in the subject of a message to the account <cl>GDDiscordButton</c>, as well as submitting it to <cl>play.gear.is:3000</c>\n\n";
 	CURL* curl = curl_easy_init();
 
