@@ -7,7 +7,7 @@
 class LinkProtocol : public FLAlertLayerProtocol {
 	virtual void FLAlert_Clicked(FLAlertLayer*, bool btn2) {
 		if (btn2) {
-			const char* tag = Utils::utf8_from_iso8859_1(LinkButton::token).c_str();
+			const char* tag = LinkButton::token.c_str();
 			const size_t len = strlen(tag) + 1;
 			HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, len);
 			memcpy(GlobalLock(hMem), tag, len);
@@ -41,7 +41,6 @@ class LinkProtocol : public FLAlertLayerProtocol {
 
 bool LinkMenu::init() {
 	std::string text = "Please send this <cy>token</c> in the subject of a message to the account <cl>GDDiscordButton</c>, as well as submitting it to <cl>play.gear.is:3000</c>\n\n";
-	std::string token;
 	CURL* curl = curl_easy_init();
 
 	struct curl_slist* chunk = NULL;
@@ -51,12 +50,12 @@ bool LinkMenu::init() {
 	curl_easy_setopt(curl, CURLOPT_URL, "http://play.gear.is:3000/get_token");
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, Utils::writeFunction);
 	curl_easy_setopt(curl, CURLOPT_HTTPHEADER, chunk);
-	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &token);
+	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &LinkButton::token);
 	curl_easy_perform(curl);
 	curl_easy_cleanup(curl);
 	curl = NULL;
 
-	text.append(token);
+	text.append(LinkButton::token);
 
 	FLAlertLayer* optionsLayer = FLAlertLayer::create(new LinkProtocol(), "Token", "Close", "Copy", 500, text);
 	optionsLayer->show();
