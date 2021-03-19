@@ -43,7 +43,13 @@ void __fastcall ProfileLayer::loadPageFromUserInfoHook(CCLayer* self, void*, GJU
 	}
 
 	CCImage *img = new CCImage();
-	img->initWithImageData(&dbutton, sizeof(dbutton), CCImage::kFmtPng);
+	FILE* imageFile;
+	if (fopen_s(&imageFile, "Resources/discordbutton.png", "r") == 0) {
+		img->initWithImageFileThreadSafe("Resources/discordbutton.png");
+	}
+	else {
+		img->initWithImageData(&dbutton, sizeof(dbutton), CCImage::kFmtPng);
+	}
 	
 	CCTexture2D *texture = new CCTexture2D();
 	texture->initWithImage(img);
